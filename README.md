@@ -134,11 +134,4 @@ python -m steering_fields.compute_avg_embeddings \
   --seed 42
 ```
 
-By default, this writes a uniquely named payload and matching metadata file under `data/average_embeddings/`, for example:
-
-```text
-data/average_embeddings/20260924_120000_123456_naked_avg_embedding.pt
-data/average_embeddings/20260924_120000_123456_naked_avg_embedding.json
-```
-
-Existing files are never overwritten. Use `--output-root` only when a different destination is required. The source/positive column represents the unsafe distribution; the target/negative column represents the safe distribution.
+By default, this writes a uniquely named payload and matching metadata file under `data/average_embeddings/`.
