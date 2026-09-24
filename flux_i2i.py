@@ -12,8 +12,8 @@ from steering_fields.flux_utils import (
     decode_flux_latent_to_pil,
     load_flux_img2img_pipeline,
     parse_box,
-    sample_flux,
 )
+from steering_fields import sample_min_transport_flux
 from steering_fields.outputs import (
     create_run_directory,
     make_paired_image,
@@ -63,7 +63,7 @@ def parse_args(argv: Sequence[str] | None = None, *, legacy_cli: bool = False) -
 
 
 def _sample_image(*, pipe, image, prompt, args, seed, steering, height, width, steps, cfg_src, cfg_tar, avg_payload, device, strength, timestep_start, box, feather):
-    latent = sample_flux(
+    latent = sample_min_transport_flux(
         pipe=pipe,
         source_prompt=prompt,
         target_prompt=args.target_prompt,

@@ -10,9 +10,10 @@ from typing import Sequence
 
 from ..config import get_model_checkpoint, load_config
 from ..datasets import load_prompt_records
-from ..flux_utils import decode_flux_latent_to_pil, load_flux_pipeline, sample_flux
+from ..flux_utils import decode_flux_latent_to_pil, load_flux_pipeline
 from ..outputs import find_existing_image, prompt_first8words_slug, sanitize_filename_token, write_metadata
 from ..runtime import make_generator, resolve_device, resolve_dtype, set_global_seed
+from .. import sample_min_transport_flux
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -77,7 +78,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     pipe = load_flux_pipeline(checkpoint, device, dtype, image_to_image=conditioning_image is not None)
 
     def generate(prompt: str, row_seed: int):
-        latent = sample_flux(
+        latent = sample_min_transport_flux(
             pipe=pipe,
             source_prompt=prompt,
             target_prompt=None,

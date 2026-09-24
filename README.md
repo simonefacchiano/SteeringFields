@@ -15,6 +15,7 @@ SteeringFields/
 ├── flux_i2i.py               # Complete Flux image-to-image command
 ├── sd_t2i.py                 # Complete SD3/SD3.5 text-to-image command
 ├── sd_i2i.py                 # Complete SD3/SD3.5 image-to-image command
+├── steering_fields.py        # Core algorithm: velocity blend and Flux sampler
 │
 ├── steering_fields/
 │   ├── cli/                  # Shared CLI argument helpers and legacy support
@@ -26,7 +27,7 @@ SteeringFields/
 │   ├── compute_avg_embeddings.py # Flux average-embedding generation
 │   ├── outputs.py            # Run names, images, paired views, and metadata
 │   ├── common.py             # Shared types and small helpers
-│   ├── flux_utils.py         # Flux loading, conditioning, sampling, and decoding
+│   ├── flux_utils.py         # Flux loading, conditioning, latent setup, and decoding
 │   ├── sd_utils.py           # SD3/SD3.5 loading, sampling, i2i setup, and decoding
 │   └── utils.py              # Shared legacy-compatible workflow utilities
 │
@@ -35,7 +36,28 @@ SteeringFields/
 └── data/, experiments/, metrics/, visuals/, ... # Existing project material
 ```
 
-The four root command files contain their complete argument parsing and workflow dispatch. Reusable model operations remain in `steering_fields/`, with Flux-specific code in `flux_utils.py` and SD-specific code in `sd_utils.py`.
+The four root command files contain their complete argument parsing and workflow dispatch. Reusable model operations remain in `steering_fields/`, with Flux-specific setup code in `flux_utils.py` and SD-specific code in `sd_utils.py`.
+
+## Understanding the algorithm
+
+Start with [`steering_fields.py`](steering_fields.py). It is the single source of truth for the two central pieces of the method:
+
+- `blend_velocities` implements the additive and replacement steering equations.
+- `sample_min_transport_flux` evaluates those vector fields and integrates the steered trajectory. Both `flux_t2i.py` and `flux_i2i.py` call this function directly.
+
+In additive mode, the source velocity is interpolated toward the safe velocity:
+
+```text
+v = v_src + alpha * (v_safe - v_src)
+```
+
+In replacement mode, an unsafe component is removed while a safe component is added:
+
+```text
+v = (v_src + mu * v_safe - alpha * v_unsafe) / (1 + mu - alpha)
+```
+
+The schedules and backend helpers are kept in separate modules so that the core sampling loop remains short enough to read from top to bottom. The velocity blend is shared with the SD implementation; it is not duplicated elsewhere in the codebase.
 
 ## Configuration
 

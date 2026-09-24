@@ -9,7 +9,8 @@ from typing import Sequence
 from steering_fields.common import unique_ints
 from steering_fields.datasets import load_prompt_records
 from steering_fields.embeddings import load_embedding_payload, load_initial_noise
-from steering_fields.flux_utils import decode_flux_latent_to_pil, load_flux_pipeline, sample_flux
+from steering_fields.flux_utils import decode_flux_latent_to_pil, load_flux_pipeline
+from steering_fields import sample_min_transport_flux
 from steering_fields.outputs import (
     create_run_directory,
     make_paired_image,
@@ -55,7 +56,7 @@ def _generate_image(
     *, pipe, prompt: str, args, seed: int, steering, height: int, width: int,
     steps: int, cfg_src: float, cfg_tar: float, avg_payload, initial_noise, device,
 ):
-    latent = sample_flux(
+    latent = sample_min_transport_flux(
         pipe=pipe,
         source_prompt=prompt,
         target_prompt=args.target_prompt,

@@ -12,6 +12,7 @@ from .common import SteeringParameters
 from .embeddings import load_embedding_payload
 from .runtime import autocast_context
 from .schedules import alpha_at_step, clamp_alpha_value, mu_at_step
+from . import blend_velocities
 
 
 def _torch():
@@ -106,19 +107,6 @@ def calc_v_sd3_single(pipe, latents, condition: dict[str, Any], guidance_scale: 
     )[0]
     unconditioned, conditioned = prediction.chunk(2)
     return unconditioned + float(guidance_scale) * (conditioned - unconditioned)
-
-
-def blend_velocities(v_src, v_safe, alpha: float, mode: str, *, v_unsafe=None, mu: float = 0.0):
-    if mode == "add":
-        return v_src + alpha * (v_safe - v_src)
-    if mode == "replace":
-        if v_unsafe is None:
-            raise ValueError("replace mode requires an unsafe velocity")
-        denominator = 1.0 + mu - alpha
-        if mu < 0.0 or denominator <= 0.0:
-            raise ValueError("replace mode requires mu >= 0 and alpha < 1 + mu")
-        return (v_src + mu * v_safe - alpha * v_unsafe) / denominator
-    raise ValueError(f"Unknown steering mode: {mode}")
 
 
 def decode_sd3_latent_to_pil(pipe, latent, device, vae_dtype):

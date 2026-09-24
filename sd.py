@@ -8,8 +8,8 @@ from steering_fields.common import str2bool
 from steering_fields.embeddings import load_embedding_payload as load_avg_target_embeddings
 from steering_fields.embeddings import save_embedding_payload as _save_embedding_payload
 from steering_fields.schedules import alpha_at_step, mu_at_step
+from steering_fields import blend_velocities
 from steering_fields.sd_utils import (
-    blend_velocities,
     build_avg_target_embeddings_from_csv,
     calc_v_sd3_single,
     condition_from_avg,
