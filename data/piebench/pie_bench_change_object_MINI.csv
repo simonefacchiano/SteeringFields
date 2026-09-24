@@ -1,0 +1,3 @@
+source_prompt,safe_prompt,safe_terms,unsafe_prompt,new_prompt,image_path
+fishes and kelp in the ocean,sharks and flowers in the ocean,sharks flowers,fishes kelp,sharks and flowers in the ocean,pie_bench_pp/images/1_change_object_80/111000000000.jpg
+a cat wearing a pink hat,a tiger wearing a pink scarf,tiger scarf,cat hat,a tiger wearing a pink scarf,pie_bench_pp/images/1_change_object_80/111000000001.jpg

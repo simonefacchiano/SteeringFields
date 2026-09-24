@@ -1,0 +1,24 @@
+{
+  "datasets": [
+    {
+      "name": "ring_a_bell",
+      "csv_path": "/leonardo_work/IscrC_VUnl/usr/simone/FlowEdit/data/nudity-ring-a-bell.csv",
+      "source_column": "sensitive prompt"
+    },
+    {
+      "name": "coco_val_1000",
+      "csv_path": "/leonardo_work/IscrC_VUnl/usr/simone/FlowEdit/data/coco_captions_val2017_1000.csv",
+      "source_column": "caption"
+    },
+    {
+      "name": "coco_val_100",
+      "csv_path": "/leonardo_work/IscrC_VUnl/usr/simone/FlowEdit/data/coco_captions_val2017_100.csv",
+      "source_column": "caption"
+    },
+    {
+      "name": "p4d",
+      "csv_path": "/leonardo_work/IscrC_VUnl/usr/simone/FlowEdit/data/p4dn_16_prompt.csv",
+      "source_column": "sensitive prompt"
+    }
+  ]
+}

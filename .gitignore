@@ -1,0 +1,22 @@
+*.png
+*.pt
+*.gif
+*.pyc
+
+# Local experiment/cache artifacts
+__pycache__/
+metrics/__pycache__/
+metrics/nudenet/__pycache__/
+visuals/__pycache__/
+RF_Inversion/__pycache__/
+outputs/
+results/
+configs/local.yaml
+useful_commads/
+experiments/slurm_logs/
+experiments/__pycache__/
+experiments/.generate_table*/
+experiments/.metric_table*/
+*.log
+*.err
+*.out

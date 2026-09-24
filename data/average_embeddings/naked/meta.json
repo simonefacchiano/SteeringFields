@@ -1,0 +1,13 @@
+{
+  "pairs_csv": "/leonardo_work/IscrC_VUnl/usr/simone/FlowEdit/naked.csv",
+  "src_col": "positive_prompts",
+  "tar_col": "negative_prompts",
+  "num_pairs": 50,
+  "max_rows": 50,
+  "only_avg_embedding": true,
+  "checkpoint": "/leonardo_scratch/fast/EUHPC_D25_097/flux1",
+  "seed": 42,
+  "device": "cuda:0",
+  "dtype": "torch.bfloat16",
+  "has_unsafe_avg": true
+}

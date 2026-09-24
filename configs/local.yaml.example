@@ -1,0 +1,7 @@
+# Copy this file to local.yaml and replace these examples with local paths.
+paths:
+  flux_checkpoint: /path/to/flux1
+  sd3_checkpoint: /path/to/stable-diffusion-3-medium
+  sd35_checkpoint: /path/to/stable-diffusion-3.5
+  output_root: /path/to/outputs
+  dataset_config: ../data/dataset_config.json

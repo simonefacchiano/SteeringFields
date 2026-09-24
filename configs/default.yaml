@@ -1,0 +1,43 @@
+paths:
+  flux_checkpoint: null
+  sd3_checkpoint: null
+  sd35_checkpoint: null
+  output_root: ../outputs
+  dataset_config: ../data/dataset_config.json
+
+runtime:
+  device: auto
+  dtype: auto
+  device_number: 0
+
+defaults:
+  height: 1024
+  width: 1024
+  num_steps: 28
+  seed: 42
+
+flux:
+  cfg_src: 1.5
+  cfg_tar: 5.5
+
+sd3:
+  cfg: 7.0
+
+sd35:
+  cfg: 3.5
+
+steering:
+  mode: add
+  alpha_schedule: linear
+  alpha: 0.5
+  alpha_start: 0.9
+  alpha_end: 0.1
+  mu_schedule: constant
+  mu: 0.5
+  mu_start: 0.5
+  mu_end: 0.5
+
+image_to_image:
+  strength: 0.8
+  timestep_start: 1
+  box_feather: 0.0
