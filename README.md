@@ -1,5 +1,7 @@
 # SteeringFields
 
+![SteeringFields teaser](steering_fields/teaser.png)
+
 This repository provides four explicit generation workflows built around a shared implementation:
 
 - Flux text-to-image;
@@ -60,14 +62,7 @@ built-in defaults
   → explicit command-line arguments
 ```
 
-The local Flux checkpoint for this machine is configured in `configs/local.yaml`:
-
-```yaml
-paths:
-  flux_checkpoint: /leonardo_scratch/fast/IscrC_VUnl/flux1
-```
-
-Machine-specific values belong in `configs/local.yaml`, which is ignored by Git. They should not be added to `configs/default.yaml`.
+Configure the local Flux checkpoint with `paths.flux_checkpoint` in `configs/local.yaml`. Machine-specific values belong in that ignored file and should not be added to `configs/default.yaml`.
 
 Supported checkpoint environment variables are `FLUX_CHECKPOINT`, `SD3_CHECKPOINT`, and `SD35_CHECKPOINT`.
 
@@ -84,10 +79,12 @@ For example, `--generation-mode steer --steering-mode add` applies the additive 
 
 ## Example: dog to spaghetti
 
+![Dog playing in the snow steered toward a cat](outputs/flux/t2i/steered/20260924_114045_a_dog_playing_in_the_snow_to_cat/paired.png)
+
 This reproduces the Flux text-to-image run that steers **“a dog playing in the snow”** toward **“spaghetti”** using add mode and seed 42:
 
 ```bash
-cd /leonardo_work/IscrC_SteFi/SteeringFields
+cd SteeringFields
 
 python flux_t2i.py \
   --config configs/local.yaml \
@@ -127,10 +124,6 @@ steered.png
 paired.png
 meta.json
 ```
-
-The reproduced source and steered result are shown side by side below:
-
-![Dog playing in the snow steered toward spaghetti](outputs/flux/t2i/steered/20260924_114216_a_dog_playing_in_the_snow_to_spaghetti/paired.png)
 
 Without `--include-baseline`, it contains only `steered.png` and `meta.json`.
 
