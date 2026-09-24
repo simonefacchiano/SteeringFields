@@ -11,17 +11,13 @@ SteeringFields/
 │   ├── local.yaml.example    # Template for machine-specific paths
 │   └── local.yaml            # Local paths; ignored by Git
 │
-├── flux_t2i.py               # Canonical Flux text-to-image launcher
-├── flux_i2i.py               # Canonical Flux image-to-image launcher
-├── sd_t2i.py                 # Canonical SD3/SD3.5 text-to-image launcher
-├── sd_i2i.py                 # Canonical SD3/SD3.5 image-to-image launcher
+├── flux_t2i.py               # Complete Flux text-to-image command
+├── flux_i2i.py               # Complete Flux image-to-image command
+├── sd_t2i.py                 # Complete SD3/SD3.5 text-to-image command
+├── sd_i2i.py                 # Complete SD3/SD3.5 image-to-image command
 │
 ├── steering_fields/
-│   ├── cli/
-│   │   ├── flux_t2i.py       # Flux t2i argument parsing and workflow dispatch
-│   │   ├── flux_i2i.py       # Flux i2i argument parsing and workflow dispatch
-│   │   ├── sd_t2i.py         # SD t2i argument parsing and workflow dispatch
-│   │   └── sd_i2i.py         # SD i2i argument parsing and workflow dispatch
+│   ├── cli/                  # Shared CLI argument helpers and legacy support
 │   ├── config.py             # YAML, environment, and CLI configuration
 │   ├── runtime.py            # Device, dtype, generator, and seed handling
 │   ├── schedules.py          # Alpha and mu schedules and validation
@@ -39,7 +35,7 @@ SteeringFields/
 └── data/, experiments/, metrics/, visuals/, ... # Existing project material
 ```
 
-The root launchers are intentionally small. The reusable implementation lives in `steering_fields/`, with all Flux-specific code in `flux_utils.py` and all SD-specific code in `sd_utils.py`.
+The four root command files contain their complete argument parsing and workflow dispatch. Reusable model operations remain in `steering_fields/`, with Flux-specific code in `flux_utils.py` and SD-specific code in `sd_utils.py`.
 
 ## Configuration
 

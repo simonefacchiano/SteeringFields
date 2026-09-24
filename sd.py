@@ -3,7 +3,7 @@
 import os
 from pathlib import Path
 
-from steering_fields.cli.sd_t2i import main as _main, parse_args as _parse_args
+from sd_t2i import main as _main, parse_args as _parse_args
 from steering_fields.common import str2bool
 from steering_fields.embeddings import load_embedding_payload as load_avg_target_embeddings
 from steering_fields.embeddings import save_embedding_payload as _save_embedding_payload
