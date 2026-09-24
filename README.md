@@ -70,7 +70,7 @@ For example, `--generation-mode steer --steering-mode add` applies the additive 
 
 ## Example: dog to spaghetti
 
-![Dog playing in the snow steered toward a cat](outputs/flux/t2i/steered/20260924_114045_a_dog_playing_in_the_snow_to_cat/paired.png)
+![Dog playing in the snow steered toward a cat](outputs/20260924_114045_a_dog_playing_in_the_snow_to_cat/paired.png)
 
 This reproduces the Flux text-to-image run that steers **“a dog playing in the snow”** toward **“spaghetti”** using add mode and seed 42:
 
