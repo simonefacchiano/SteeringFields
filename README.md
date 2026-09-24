@@ -1,4 +1,4 @@
-# SteeringFields
+# Steering Fields: Adaptive Vector Fields for Safe Image Generation and Beyond
 
 ![SteeringFields teaser](steering_fields/teaser.png)
 
