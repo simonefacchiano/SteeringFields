@@ -2,15 +2,6 @@
 
 ![SteeringFields teaser](steering_fields/teaser.png)
 
-This repository provides four explicit generation workflows built around a shared implementation:
-
-- Flux text-to-image;
-- Flux image-to-image;
-- SD3/SD3.5 text-to-image;
-- SD3/SD3.5 image-to-image.
-
-Each workflow supports baseline generation and minimal-transport steering. The restructuring keeps command-line parsing, model-specific sampling, configuration, datasets, and output handling separate.
-
 ## Repository structure
 
 ```text
@@ -127,24 +118,6 @@ meta.json
 
 Without `--include-baseline`, it contains only `steered.png` and `meta.json`.
 
-## Output layout
-
-Canonical commands write to model-, workflow-, and mode-specific directories:
-
-```text
-outputs/
-└── flux/
-    └── t2i/
-        └── steered/
-            └── YYYYMMDD_HHMMSS_a_dog_playing_in_the_snow_to_spaghetti/
-                ├── steered.png
-                └── meta.json
-```
-
-When `--run-name` is omitted, an automatic timestamp is placed at the front of the descriptive run name. Supplying `--run-name` uses that value unchanged.
-
-Every `meta.json` records the effective checkpoint, prompts, dimensions, CFG values, schedules, seeds, device, dtype, configuration, and optional embedding or image-conditioning inputs.
-
 ## Computing Flux average embeddings
 
 Average safe and unsafe Flux embeddings can be built from a paired prompt CSV with:
@@ -169,20 +142,3 @@ data/average_embeddings/20260924_120000_123456_naked_avg_embedding.json
 ```
 
 Existing files are never overwritten. Use `--output-root` only when a different destination is required. The source/positive column represents the unsafe distribution; the target/negative column represents the safe distribution.
-
-## Other entry points
-
-Use the same generation-mode and steering-mode pattern for the remaining workflows:
-
-```bash
-python flux_i2i.py --help
-python sd_t2i.py --help
-python sd_i2i.py --help
-```
-
-The remaining legacy baseline filenames are available while existing callers are migrated:
-
-```bash
-python flux.py --help
-python sd.py --help
-```
