@@ -38,7 +38,7 @@ SteeringFields/
 
 The four root command files contain their complete argument parsing and workflow dispatch. Reusable model operations remain in `steering_fields/`, with Flux-specific setup code in `flux_utils.py` and SD-specific code in `sd_utils.py`.
 
-## Example: dog to spaghetti
+## Blending Example: Dog to Spaghetti
 
 ![Dog playing in the snow steered toward spaghetti](outputs/dog_spaghetti.png)
 
