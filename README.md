@@ -38,7 +38,7 @@ SteeringFields/
 
 The four root command files contain their complete argument parsing and workflow dispatch. Reusable model operations remain in `steering_fields/`, with Flux-specific setup code in `flux_utils.py` and SD-specific code in `sd_utils.py`.
 
-## Blending Example: Dog to Spaghetti
+## Blending Example: Dog to Spaghetti (T2I)
 
 ![Dog playing in the snow steered toward spaghetti](outputs/dog_spaghetti.png)
 
@@ -87,6 +87,42 @@ meta.json
 ```
 
 Without `--include-baseline`, it contains only `steered.png` and `meta.json`.
+
+## Replacing Example: Origami Swan (I2I)
+
+![Swan replaced with an origami swan](outputs/origami_swan.png)
+
+This reproduces the Flux image-to-image run that replaces **“a swan”** with **“an origami swan”** while preserving the surrounding lake and park:
+
+```bash
+python flux_i2i.py \
+  --checkpoint /leonardo_scratch/fast/IscrC_VUnl/flux1 \
+  --generation-mode steer \
+  --steering-mode replace \
+  --prompt "a swan in a lake inside a park" \
+  --safe-prompt "a origami swan" \
+  --unsafe-prompt "a swan" \
+  --image /leonardo_work/IscrC_SteFi/outputs/simone_min_transport_steering/20260506_222920_a_swan_in_a_lake_inside_a_park_to_avg_ta/input.png \
+  --image-strength 0.65 \
+  --height 1024 \
+  --width 1024 \
+  --num-steps 28 \
+  --cfg-src 2.0 \
+  --cfg-tar 6.0 \
+  --mu 0.5 \
+  --mu-schedule linear \
+  --mu-start 0.8 \
+  --mu-end 0.4 \
+  --alpha 0.5 \
+  --alpha-schedule linear \
+  --alpha-start 0.6 \
+  --alpha-end 0.4 \
+  --timestep-start 1 \
+  --box-feather 0.0 \
+  --seed 42 \
+  --device cuda:0 \
+  --dtype bfloat16
+```
 
 ## Understanding the algorithm
 
