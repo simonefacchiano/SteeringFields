@@ -38,54 +38,6 @@ SteeringFields/
 
 The four root command files contain their complete argument parsing and workflow dispatch. Reusable model operations remain in `steering_fields/`, with Flux-specific setup code in `flux_utils.py` and SD-specific code in `sd_utils.py`.
 
-## Understanding the algorithm
-
-Start with [`steering_fields.py`](steering_fields.py). It is the single source of truth for the two central pieces of the method:
-
-- `blend_velocities` implements the additive and replacement steering equations.
-- `sample_min_transport_flux` evaluates those vector fields and integrates the steered trajectory. Both `flux_t2i.py` and `flux_i2i.py` call this function directly.
-
-In additive mode, the source velocity is interpolated toward the safe velocity:
-
-```text
-v = v_src + alpha * (v_safe - v_src)
-```
-
-In replacement mode, an unsafe component is removed while a safe component is added:
-
-```text
-v = (v_src + mu * v_safe - alpha * v_unsafe) / (1 + mu - alpha)
-```
-
-The schedules and backend helpers are kept in separate modules so that the core sampling loop remains short enough to read from top to bottom. The velocity blend is shared with the SD implementation; it is not duplicated elsewhere in the codebase.
-
-## Configuration
-
-Configuration values are applied in this order, from lowest to highest priority:
-
-```text
-built-in defaults
-  → configs/default.yaml
-  → --config YAML file
-  → environment variables
-  → explicit command-line arguments
-```
-
-Configure the local Flux checkpoint with `paths.flux_checkpoint` in `configs/local.yaml`. Machine-specific values belong in that ignored file and should not be added to `configs/default.yaml`.
-
-Supported checkpoint environment variables are `FLUX_CHECKPOINT`, `SD3_CHECKPOINT`, and `SD35_CHECKPOINT`.
-
-## Generation and steering modes
-
-The new commands distinguish the generation mode from the steering formula:
-
-```text
---generation-mode baseline|steer
---steering-mode add|replace
-```
-
-For example, `--generation-mode steer --steering-mode add` applies the additive minimal-transport blend. The old ambiguous form `--mode add` remains available only through the compatibility wrappers.
-
 ## Example: dog to spaghetti
 
 ![Dog playing in the snow steered toward spaghetti](outputs/dog_spaghetti.png)
@@ -135,6 +87,54 @@ meta.json
 ```
 
 Without `--include-baseline`, it contains only `steered.png` and `meta.json`.
+
+## Understanding the algorithm
+
+Start with [`steering_fields.py`](steering_fields.py). It is the single source of truth for the two central pieces of the method:
+
+- `blend_velocities` implements the additive and replacement steering equations.
+- `sample_min_transport_flux` evaluates those vector fields and integrates the steered trajectory. Both `flux_t2i.py` and `flux_i2i.py` call this function directly.
+
+In additive mode, the source velocity is interpolated toward the safe velocity:
+
+```text
+v = v_src + alpha * (v_safe - v_src)
+```
+
+In replacement mode, an unsafe component is removed while a safe component is added:
+
+```text
+v = (v_src + mu * v_safe - alpha * v_unsafe) / (1 + mu - alpha)
+```
+
+The schedules and backend helpers are kept in separate modules so that the core sampling loop remains short enough to read from top to bottom. The velocity blend is shared with the SD implementation; it is not duplicated elsewhere in the codebase.
+
+## Configuration
+
+Configuration values are applied in this order, from lowest to highest priority:
+
+```text
+built-in defaults
+  → configs/default.yaml
+  → --config YAML file
+  → environment variables
+  → explicit command-line arguments
+```
+
+Configure the local Flux checkpoint with `paths.flux_checkpoint` in `configs/local.yaml`. Machine-specific values belong in that ignored file and should not be added to `configs/default.yaml`.
+
+Supported checkpoint environment variables are `FLUX_CHECKPOINT`, `SD3_CHECKPOINT`, and `SD35_CHECKPOINT`.
+
+## Generation and steering modes
+
+The new commands distinguish the generation mode from the steering formula:
+
+```text
+--generation-mode baseline|steer
+--steering-mode add|replace
+```
+
+For example, `--generation-mode steer --steering-mode add` applies the additive minimal-transport blend. The old ambiguous form `--mode add` remains available only through the compatibility wrappers.
 
 ## Computing Flux average embeddings
 
